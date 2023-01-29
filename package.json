@@ -18,6 +18,10 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "@offensichtbar-codestock/ngx-flex-masonry-grid": "^11.2.7",
+    "@types/faker": "^5.5.1",
+    "bootstrap": "^5.2.3",
+    "faker": "^5.5.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
