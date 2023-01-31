@@ -2,23 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { ImageCroppedEvent } from "ngx-image-cropper";
 import { first } from "rxjs";
+import { environment } from "src/environments/environment";
 
-const getImage = () => {
-  const arr = [
-    {
-      src: "https://i.postimg.cc/tgMnbr02/osb-demo-1280x720.jpg",
-      width: 1280,
-      height: 720
-    },
-    {
-      src: "https://i.postimg.cc/SR0X2Jx9/osb-demo-1280x990.jpg",
-      width: 1280,
-      height: 990
-    },
-  ]
-
-  return arr[~~(Math.random() * arr.length)];
-}
 
 function b64toBlob(b64Data: string, contentType: string, sliceSize: number = 512) {
   contentType = contentType || '';
@@ -71,6 +56,7 @@ export class AppComponent {
   requestTime: number = 0;
 
   constructor(private http: HttpClient) {
+
   }
 
   fileChangeEvent(event: any): void {
@@ -102,7 +88,7 @@ export class AppComponent {
     this.http.post<{
       path: string,
       distance: number
-    }[]>('http://127.0.0.1:5000', this.buildFormData(), {})
+    }[]>(environment.api, this.buildFormData(), {})
       .pipe(first())
       .subscribe(res => {
         this.requestTime = new Date().getTime() - startFrom;
@@ -129,7 +115,7 @@ export class AppComponent {
           }
         }[],
       }
-    }>('http://127.0.0.1:5000?type=es', this.buildFormData(), {})
+    }>(`${environment.api}?type=es`, this.buildFormData(), {})
       .pipe(first())
       .subscribe(res => {
         this.requestTime = new Date().getTime() - startFrom;
