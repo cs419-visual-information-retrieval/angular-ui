@@ -1,16 +1,46 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="row preview-image">
+    <div class="col-lg-12">
+      <div class="upload-outer">
+        <label for="upload-file" class="btn btn-primary">Upload Image</label>
+        <strong>OR</strong>
+        <span class="drag-box" [ngClass]="status">
+          Darg and Drop image here
+          <input type="file" (change)="fileChangeEvent($event)" (dragover)="drag()" (drop)="drop()" id="upload-file" />
+        </span>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [maintainAspectRatio]="false"
+        (imageCropped)="imageCropped($event)" [format]="'jpeg'"></image-cropper>
+    </div>
 
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <img [src]="croppedImage" class="rounded mx-auto d-block cropped-image" />
+    </div>
+
+    <div class="col-lg-12 text-center" *ngIf="croppedImage">
+      <hr>
+      <button class="btn btn-primary" type="button" (click)="inMemorySearch()">In Memory Search</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-success" type="button" (click)="elasticSearch()">Elastic Search</button>
+    </div>
+
+    <div class="col-lg-12 text-center" *ngIf="!!entries?.length">
+      <br>
+      <p>Request time: {{ requestTime }} ms</p>
+      <hr>
+    </div>
   </div>
+
+
   <osb-ngx-flexmasonry-grid class="row">
-    <osb-ngx-flexmasonry-grid-item class="col-xl-3 col-lg-4 col-sm-6 pb-5"
-      *ngFor="let entry of getEntries() | async; let i = index">
+    <osb-ngx-flexmasonry-grid-item class="col-xl-3 col-lg-4 col-sm-6 pb-5" *ngFor="let entry of entries; let i = index">
       <div class="card shadow">
-        <img *ngIf="entry.image" [src]="entry.image.src" [attr.width]="entry.image.width"
-          [attr.height]="entry.image.height" class="card-img-top img-fluid" />
+        <img *ngIf="entry.image" [src]="entry.image" class="card-img-top img-fluid" />
         <div class="card-body">
-          <h5 class="card-title">{{i + 1}}. {{entry.title}}</h5>
-          <p class="card-text">{{entry.body}}</p>
+          <h6 class="card-title">#{{i + 1}}. {{entry.title}}</h6>
+          <p class="card-text">Distance: {{entry.distance | number:'1.0-2'}}</p>
         </div>
       </div>
     </osb-ngx-flexmasonry-grid-item>
